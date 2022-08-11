@@ -62,6 +62,8 @@ func interpreterError(message string, line int, col int) {
 	fmt.Println("\n" + style("Error: "+message, RED) + "\n")
 	if len(os.Args) > 1 {
 		fmt.Printf(style(dashes, DIM)+" %s:%d:%d\n", os.Args[1], line+1, col+1)
+	} else {
+		fmt.Println(style(dashes, DIM))
 	}
 	// line before
 	if line-1 > 0 {
