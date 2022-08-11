@@ -24,6 +24,9 @@ func check() {
 				if lastToken.typeof == STARTCLOSURE && tok.typeof == ENDCLOSURE {
 					interpreterError("Empty closure, must contain expression", set.line, tok.col)
 				}
+				if tok.typeof == STARTCLOSURE && nextToken(set, i).typeof != INTEGER {
+					interpreterError("Invalid closure", set.line, tok.col)
+				}
 				if isOperator(tok) && (lastToken.typeof != INTEGER && lastToken.typeof != ENDCLOSURE) {
 					if nextToken(set, i).typeof != INTEGER && tok.typeof != MINUS {
 						interpreterError("Operator does not follow an integer or ending closure", set.line, tok.col)
