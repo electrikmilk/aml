@@ -96,6 +96,8 @@ func replaceVariables() {
 			for _, char := range strings.Split(line, "") {
 				if tok, found := variables[char]; found {
 					lines[i] = strings.ReplaceAll(lines[i], char, strconv.FormatFloat(tok.value, 'f', -1, 64))
+				} else if tok, found := constants[char]; found {
+					lines[i] = strings.ReplaceAll(lines[i], char, strconv.FormatFloat(tok.value, 'f', -1, 64))
 				}
 			}
 		}

@@ -56,10 +56,17 @@ func parse() {
 				} else if currentChar == "v" && next(1) == "a" && next(2) == "r" {
 					c += 3
 					advance()
-					collectVariable()
+					collectVariable("var", l, c)
+				} else if currentChar == "c" && next(1) == "o" {
+					c += 5
+					advance()
+					collectVariable("const", l, c)
 				} else {
-					if tok, found := variables[currentChar]; found {
-						lineTokens = append(lineTokens, tok)
+					if constTok, found := constants[currentChar]; found {
+						lineTokens = append(lineTokens, constTok)
+						advance()
+					} else if varTok, found := variables[currentChar]; found {
+						lineTokens = append(lineTokens, varTok)
 						advance()
 					} else {
 						interpreterError(fmt.Sprintf("Invalid character: %s", currentChar), l, c)
@@ -85,15 +92,31 @@ func waitForComment() {
 	return
 }
 
-func collectVariable() {
+func collectVariable(kind string, line int, col int) {
 	var identifier string
 	for currentChar != " " {
 		identifier += currentChar
 		advance()
 	}
-	c += 2
+	if kind == "const" {
+		if _, found := variables[identifier]; found {
+			interpreterError(fmt.Sprintf("Variable \"%s\" already exists!", identifier), line, col)
+		}
+	}
+	if _, found := constants[identifier]; found {
+		interpreterError(fmt.Sprintf("Constant \"%s\" already exists!", identifier), line, col)
+	}
 	advance()
-	variables[identifier] = tokenizeInteger()
+	if currentChar != "=" {
+		interpreterError("Missing equality operator", line, col)
+	}
+	c++
+	advance()
+	if kind == "const" {
+		constants[identifier] = tokenizeInteger()
+	} else {
+		variables[identifier] = tokenizeInteger()
+	}
 }
 
 func tokenizeInteger() token {

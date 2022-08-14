@@ -48,6 +48,9 @@ AML can interpret human readable equations, no extra syntax is required beyond s
 | ^            | Denote Exponent              |
 | (            | Start closure                |
 | )            | End closure                  |
+| =            | Equality                     |
+| var          | Denote variable              |
+| const        | Denote constant              |
 
 Each equation must be on its own line.
 
@@ -78,13 +81,17 @@ Comments are allowed, but must either be on their own line or at the very end of
 # comment
 ```
 
-Variables are supported, but currently must be only one character long.
+Variables and constants are supported, but currently must be only one character long.
 
 ```aml
 var x = 10
-var y = 10
+const y = 10
 x * y
 ```
+
+Variables can be reassigned, while constants cannot. Variables and constants must all have unique identifiers.
+
+Variables and constants must either be an integer, decimal or exponent.
 
 ---
 
