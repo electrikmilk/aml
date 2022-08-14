@@ -38,16 +38,16 @@ go run tests.go
 AML can interpret human readable equations, no extra syntax is required beyond standard mathematical syntax.
 
 
-| Operator   | Action                       |
-|------------|------------------------------|
-| +          | Add                          |
-| -          | Subtract                     |
-| *, x, X, × | Multiply                     |
-| /          | Divide                       |
-| %          | Modulus (division remainder) |
-| ^          | Denote Exponent              |
-| (          | Start closure                |
-| )          | End closure                  |
+| Operator     | Action                       |
+|--------------|------------------------------|
+| +            | Add                          |
+| -            | Subtract                     |
+| *, × (times) | Multiply                     |
+| /            | Divide                       |
+| %            | Modulus (division remainder) |
+| ^            | Denote Exponent              |
+| (            | Start closure                |
+| )            | End closure                  |
 
 Each equation must be on its own line.
 
@@ -76,6 +76,14 @@ Comments are allowed, but must either be on their own line or at the very end of
 # This is a
 # multiline
 # comment
+```
+
+Variables are supported, but currently must be only one character long.
+
+```aml
+var x = 10
+var y = 10
+x * y
 ```
 
 ---

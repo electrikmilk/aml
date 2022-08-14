@@ -15,7 +15,10 @@ import (
 
 var EOL = "\n"
 
+var variables map[string]token
+
 func main() {
+	variables = make(map[string]token)
 	if runtime.GOOS == "windows" {
 		EOL = "\r\n"
 	}

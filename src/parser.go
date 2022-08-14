@@ -53,8 +53,17 @@ func parse() {
 					advance()
 				} else if strings.Contains(string(INTEGER), currentChar) {
 					lineTokens = append(lineTokens, tokenizeInteger())
+				} else if currentChar == "v" && next(1) == "a" && next(2) == "r" {
+					c += 3
+					advance()
+					collectVariable()
 				} else {
-					interpreterError(fmt.Sprintf("Invalid character: %s", currentChar), l, c)
+					if tok, found := variables[currentChar]; found {
+						lineTokens = append(lineTokens, tok)
+						advance()
+					} else {
+						interpreterError(fmt.Sprintf("Invalid character: %s", currentChar), l, c)
+					}
 				}
 			}
 			if len(lineTokens) > 0 {
@@ -74,6 +83,17 @@ func waitForComment() {
 		advance()
 	}
 	return
+}
+
+func collectVariable() {
+	var identifier string
+	for currentChar != " " {
+		identifier += currentChar
+		advance()
+	}
+	c += 2
+	advance()
+	variables[identifier] = tokenizeInteger()
 }
 
 func tokenizeInteger() token {
@@ -153,4 +173,22 @@ func seek(mov *int, reverse bool) (seekedChar string) {
 		seekedChar = chars[charPos]
 	}
 	return
+}
+
+func printCurrentChar() {
+	var char string
+	switch currentChar {
+	case "\t":
+		char = "TAB"
+		break
+	case " ":
+		char = "SPACE"
+		break
+	case EOL:
+		char = "EOL"
+		break
+	default:
+		char = currentChar
+	}
+	fmt.Println(char)
 }

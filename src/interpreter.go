@@ -61,6 +61,7 @@ func interpret() {
 			}
 		}
 		stripComments()
+		replaceVariables()
 		var equals string = style("= ", DIM)
 		if len(os.Args) > 1 {
 			fmt.Printf(style(printModulus(lines[set.line]), YELLOW) + " ")
@@ -84,6 +85,18 @@ func stripComments() {
 		if len(line) > 0 {
 			if strings.Contains(line, "#") {
 				lines[i] = strings.TrimSpace(strings.Split(lines[i], "#")[0])
+			}
+		}
+	}
+}
+
+func replaceVariables() {
+	for i, line := range lines {
+		if len(line) > 0 {
+			for _, char := range strings.Split(line, "") {
+				if tok, found := variables[char]; found {
+					lines[i] = strings.ReplaceAll(lines[i], char, strconv.FormatFloat(tok.value, 'f', -1, 64))
+				}
 			}
 		}
 	}

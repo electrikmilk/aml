@@ -10,7 +10,7 @@ const (
 	INTEGER      tokenType = "0123456789.-^"
 	PLUS                   = "+"
 	MINUS                  = "-"
-	MULTIPLY               = "*xX×"
+	MULTIPLY               = "*×"
 	DIVIDE                 = "/"
 	MODULUS                = "%"
 	STARTCLOSURE           = "("
