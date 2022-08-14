@@ -7,7 +7,7 @@ package main
 type tokenType string
 
 const (
-	INTEGER      tokenType = "0123456789.-"
+	INTEGER      tokenType = "0123456789.-^"
 	PLUS                   = "+"
 	MINUS                  = "-"
 	MULTIPLY               = "*xX×"

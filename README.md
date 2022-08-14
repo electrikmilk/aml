@@ -35,17 +35,8 @@ go run tests.go
 
 ## Syntax
 
-AML can interpret human readable equations, no fancy syntax needed: 
+AML can interpret human readable equations, no extra syntax is required beyond standard mathematical syntax.
 
-```aml
-2 + 2
-```
-
-### However, there are some rules...
-
-Each equation should be on its own line.
-
-Basic arithmetic operators should only be in between integers (or decimals).
 
 | Operator   | Action                       |
 |------------|------------------------------|
@@ -54,12 +45,25 @@ Basic arithmetic operators should only be in between integers (or decimals).
 | *, x, X, × | Multiply                     |
 | /          | Divide                       |
 | %          | Modulus (division remainder) |
+| ^          | Denote Exponent              |
+| (          | Start closure                |
+| )          | End closure                  |
 
-Expressions (a statement of integers and operators) may be inside of closures and calculated seperately, but operands
-must follow and precede closures.
+Each equation must be on its own line.
+
+Basic arithmetic operators should only be in between integers (or decimals).
+
+Expressions (a statement of integers and operators) may be inside of closures and calculated separately, but operands
+must follow and precede closures. Closures will be evaluated separately in order.
 
 ```aml
 5 * (8 + 4) / 8
+```
+
+Exponents are supported by following an integer or decimal with the `^` operator and following it with another integer or decimal.
+
+```aml
+2^4 * 16
 ```
 
 Comments are allowed, but must either be on their own line or at the very end of a line. Comments are denoted using `#`.
@@ -73,3 +77,11 @@ Comments are allowed, but must either be on their own line or at the very end of
 # multiline
 # comment
 ```
+
+---
+
+## Error Handling
+
+When an input is found to be invalid during or after parsing, a detailed error message will be printed showing the exact line and column that is invalid.
+
+![Error Handling](https://i.imgur.com/1dOgEGS.png)

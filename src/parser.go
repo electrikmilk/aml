@@ -78,12 +78,31 @@ func waitForComment() {
 
 func tokenizeInteger() token {
 	var value string
+	var saveValue string
 	for currentChar != "" && strings.Contains(string(INTEGER), currentChar) {
-		value += currentChar
+		if currentChar == "^" {
+			saveValue = value
+			value = ""
+		} else {
+			value += currentChar
+		}
 		advance()
 	}
-	var float, err = strconv.ParseFloat(value, 64)
-	handle(err)
+	float, floatErr := strconv.ParseFloat(value, 64)
+	handle(floatErr)
+	if len(saveValue) > 0 {
+		saveFloat, saveFloatErr := strconv.ParseFloat(saveValue, 64)
+		handle(saveFloatErr)
+		float = saveFloat
+		var exponent, exponentErr = strconv.ParseFloat(value, 64)
+		handle(exponentErr)
+		var initValue float64 = float
+		exponent--
+		var i float64
+		for i = 0; i < exponent; i++ {
+			float *= initValue
+		}
+	}
 	return token{typeof: INTEGER, value: float, col: c}
 }
 
