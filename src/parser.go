@@ -15,57 +15,57 @@ var lines []string
 
 var c int
 var chars []string
-var currentChar string
+var currentChar rune
 
 func parse() {
-	lines = strings.Split(contents, EOL)
+	lines = strings.Split(contents, eol)
 	for l, line := range lines {
 		if line != "" {
 			var lineTokens []token
 			c = -1
 			chars = strings.Split(line, "")
 			advance()
-			for currentChar != "" {
-				if currentChar == " " || currentChar == "\t" || currentChar == EOL {
+			for currentChar != -1 {
+				if currentChar == ' ' || currentChar == '\t' || currentChar == eolRune {
 					advance()
-				} else if currentChar == "#" {
+				} else if currentChar == '#' {
 					waitForComment()
-				} else if currentChar == PLUS {
+				} else if isToken(PLUS) {
 					lineTokens = append(lineTokens, token{typeof: PLUS, col: c})
 					advance()
-				} else if currentChar == MINUS && next(1) == " " {
+				} else if isToken(MINUS) && next(1) == ' ' {
 					lineTokens = append(lineTokens, token{typeof: MINUS, col: c})
 					advance()
-				} else if strings.ContainsAny(currentChar, MULTIPLY) {
+				} else if strings.ContainsAny(string(currentChar), MULTIPLY) {
 					lineTokens = append(lineTokens, token{typeof: MULTIPLY, col: c})
 					advance()
-				} else if currentChar == DIVIDE {
+				} else if isToken(DIVIDE) {
 					lineTokens = append(lineTokens, token{typeof: DIVIDE, col: c})
 					advance()
-				} else if currentChar == MODULUS {
+				} else if isToken(MODULUS) {
 					lineTokens = append(lineTokens, token{typeof: MODULUS, col: c})
 					advance()
-				} else if currentChar == STARTCLOSURE {
+				} else if isToken(STARTCLOSURE) {
 					lineTokens = append(lineTokens, token{typeof: STARTCLOSURE, col: c})
 					advance()
-				} else if currentChar == ENDCLOSURE {
+				} else if isToken(ENDCLOSURE) {
 					lineTokens = append(lineTokens, token{typeof: ENDCLOSURE, col: c})
 					advance()
-				} else if strings.Contains(string(INTEGER), currentChar) {
+				} else if strings.Contains(string(INTEGER), string(currentChar)) {
 					lineTokens = append(lineTokens, tokenizeInteger())
-				} else if currentChar == "v" && next(1) == "a" && next(2) == "r" {
+				} else if currentChar == 'v' && next(1) == 'a' && next(2) == 'r' {
 					c += 3
 					advance()
 					collectVariable("var", l, c)
-				} else if currentChar == "c" && next(1) == "o" {
+				} else if currentChar == 'c' && next(1) == 'o' {
 					c += 5
 					advance()
 					collectVariable("const", l, c)
 				} else {
-					if constTok, found := constants[currentChar]; found {
+					if constTok, found := constants[string(currentChar)]; found {
 						lineTokens = append(lineTokens, constTok)
 						advance()
-					} else if varTok, found := variables[currentChar]; found {
+					} else if varTok, found := variables[string(currentChar)]; found {
 						lineTokens = append(lineTokens, varTok)
 						advance()
 					} else {
@@ -80,13 +80,17 @@ func parse() {
 	}
 }
 
+func isToken(token tokenType) bool {
+	return string(currentChar) == string(token)
+}
+
 func waitForComment() {
 	var comment string
-	for currentChar != "" {
-		if currentChar == EOL {
+	for currentChar != -1 {
+		if currentChar == eolRune {
 			break
 		}
-		comment += currentChar
+		comment += string(currentChar)
 		advance()
 	}
 	return
@@ -94,8 +98,8 @@ func waitForComment() {
 
 func collectVariable(kind string, line int, col int) {
 	var identifier string
-	for currentChar != " " {
-		identifier += currentChar
+	for currentChar != ' ' {
+		identifier += string(currentChar)
 		advance()
 	}
 	if kind == "const" {
@@ -107,7 +111,7 @@ func collectVariable(kind string, line int, col int) {
 		interpreterError(fmt.Sprintf("Constant \"%s\" already exists!", identifier), line, col)
 	}
 	advance()
-	if currentChar != "=" {
+	if currentChar != '=' {
 		interpreterError("Missing equality operator", line, col)
 	}
 	c++
@@ -122,12 +126,12 @@ func collectVariable(kind string, line int, col int) {
 func tokenizeInteger() token {
 	var value string
 	var saveValue string
-	for currentChar != "" && strings.Contains(string(INTEGER), currentChar) {
-		if currentChar == "^" {
+	for currentChar != -1 && strings.Contains(string(INTEGER), string(currentChar)) {
+		if currentChar == '^' {
 			saveValue = value
 			value = ""
 		} else {
-			value += currentChar
+			value += string(currentChar)
 		}
 		advance()
 	}
@@ -152,48 +156,48 @@ func tokenizeInteger() token {
 func advance() {
 	c++
 	if c < len(chars) {
-		currentChar = chars[c]
+		currentChar = []rune(chars[c])[0]
 	} else {
-		currentChar = ""
+		currentChar = -1
 	}
 }
 
-func next(mov int) (nextChar string) {
+func next(mov int) (nextChar rune) {
 	if len(chars) > (c + mov) {
-		nextChar = chars[c+mov]
+		nextChar = []rune(chars[c+mov])[0]
 	} else {
-		nextChar = ""
+		nextChar = -1
 	}
 	return
 }
 
-func prev(mov int) (prevChar string) {
+func prev(mov int) (prevChar rune) {
 	if len(chars) < (c - mov) {
-		prevChar = chars[c-mov]
+		prevChar = []rune(chars[c-mov])[0]
 	} else {
-		prevChar = ""
+		prevChar = -1
 	}
 	return
 }
 
-func nextSkip(mov int) string {
+func nextSkip(mov int) rune {
 	return seek(&mov, false)
 }
 
-func prevSkip(mov int) string {
+func prevSkip(mov int) rune {
 	return seek(&mov, true)
 }
 
-func seek(mov *int, reverse bool) (seekedChar string) {
+func seek(mov *int, reverse bool) (seekedChar rune) {
 	var charPos int
-	seekedChar = " "
-	for seekedChar != " " {
+	seekedChar = ' '
+	for seekedChar != ' ' {
 		if reverse == true {
 			charPos = c - *mov
 		} else {
 			charPos = c + *mov
 		}
-		seekedChar = chars[charPos]
+		seekedChar = []rune(chars[charPos])[0]
 	}
 	return
 }
@@ -201,17 +205,17 @@ func seek(mov *int, reverse bool) (seekedChar string) {
 func printCurrentChar() {
 	var char string
 	switch currentChar {
-	case "\t":
+	case '\t':
 		char = "TAB"
 		break
-	case " ":
+	case ' ':
 		char = "SPACE"
 		break
-	case EOL:
-		char = "EOL"
+	case eolRune:
+		char = "eol"
 		break
 	default:
-		char = currentChar
+		char = string(currentChar)
 	}
 	fmt.Println(char)
 }

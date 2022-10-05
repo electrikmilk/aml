@@ -9,11 +9,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"runtime"
 	"strings"
 )
-
-var EOL = "\n"
 
 var variables map[string]token
 var constants map[string]token
@@ -21,9 +18,6 @@ var constants map[string]token
 func main() {
 	variables = make(map[string]token)
 	constants = make(map[string]token)
-	if runtime.GOOS == "windows" {
-		EOL = "\r\n"
-	}
 	if len(os.Args) > 1 {
 		// file
 		if _, err := os.Stat(os.Args[1]); errors.Is(err, os.ErrNotExist) {
