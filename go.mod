@@ -1,3 +1,3 @@
-module aml
+module github.com/electrikmilk/aml
 
-go 1.18
+go 1.20
