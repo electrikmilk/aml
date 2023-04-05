@@ -1,5 +1,11 @@
 # AML
 
+[![Build](https://github.com/electrikmilk/aml/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/electrikmilk/aml/actions/workflows/go.yml)
+[![Releases](https://img.shields.io/github/v/release/electrikmilk/aml?include_prereleases)](https://github.com/electrikmilk/aml/releases)
+[![License](https://img.shields.io/github/license/electrikmilk/aml)](https://github.com/electrikmilk/aml/blob/main/LICENSE)
+[![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/electrikmilk/aml?tab=doc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/electrikmilk/aml)](https://goreportcard.com/report/github.com/electrikmilk/aml)
+
 AML (Arith Metic Language) is an interpreted math equation language. You can either use the interactive shell by running
 the interpreter with no arguments, or with a file ending in .aml by passing the name of the file as an argument.
 
