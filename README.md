@@ -18,14 +18,14 @@ go install github.com/electrikmilk/aml@latest
 Build from source:
 
 ```console
-cd src
 go build
+sudo mv aml /usr/local/bin
 ```
 
 Run the interpreter with no arguments to enter the interactive shell:
 
 ```console
-% ./aml
+aml
 Enter "q" to quit
 
 > _
@@ -34,7 +34,7 @@ Enter "q" to quit
 Run with an AML file:
 
 ```console
-./aml file.aml
+aml file.aml
 ```
 
 Run tests after building:
