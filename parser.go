@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Brandon Jordan
+ * Copyright (c) 2023 Brandon Jordan
  */
 
 package main
@@ -69,7 +69,7 @@ func parse() {
 						lineTokens = append(lineTokens, varTok)
 						advance()
 					} else {
-						interpreterError(fmt.Sprintf("Invalid character: %s", currentChar), l, c)
+						parsingError(fmt.Sprintf("Invalid character: %s", string(currentChar)), l, c)
 					}
 				}
 			}
@@ -104,15 +104,15 @@ func collectVariable(kind string, line int, col int) {
 	}
 	if kind == "const" {
 		if _, found := variables[identifier]; found {
-			interpreterError(fmt.Sprintf("Variable \"%s\" already exists!", identifier), line, col)
+			parsingError(fmt.Sprintf("Variable \"%s\" already exists!", identifier), line, col)
 		}
 	}
 	if _, found := constants[identifier]; found {
-		interpreterError(fmt.Sprintf("Constant \"%s\" already exists!", identifier), line, col)
+		parsingError(fmt.Sprintf("Constant \"%s\" already exists!", identifier), line, col)
 	}
 	advance()
 	if currentChar != '=' {
-		interpreterError("Missing equality operator", line, col)
+		parsingError("Missing equality operator", line, col)
 	}
 	c++
 	advance()

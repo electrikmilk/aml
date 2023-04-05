@@ -6,7 +6,7 @@
 [![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://pkg.go.dev/github.com/electrikmilk/aml?tab=doc)
 [![Go Report Card](https://goreportcard.com/badge/github.com/electrikmilk/aml)](https://goreportcard.com/report/github.com/electrikmilk/aml)
 
-AML (Arith Metic Language) is an interpreted math equation language. You can either use the interactive shell by running
+AML (Arith-Metic Language) is an interpreted math equation language. You can either use the interactive shell by running
 the interpreter with no arguments, or with a file ending in .aml by passing the name of the file as an argument.
 
 Build:

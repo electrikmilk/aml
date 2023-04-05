@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Brandon Jordan
+ * Copyright (c) 2023 Brandon Jordan
  */
 
 package main
@@ -56,7 +56,7 @@ func errorMsg(message string) {
 	os.Exit(1)
 }
 
-func interpreterError(message string, line int, col int) {
+func parsingError(message string, line int, col int) {
 	var dashes = "-------"
 	fmt.Println("\n" + style("Error: "+message, RED) + "\n")
 	if len(os.Args) > 1 {
@@ -66,28 +66,28 @@ func interpreterError(message string, line int, col int) {
 	}
 	// line before
 	if line-1 > 0 {
-		fmt.Printf(style(fmt.Sprintf("%d |%s\n", line, lines[line-1]), DIM))
+		fmt.Print(style(fmt.Sprintf("%d |%s\n", line, lines[line-1]), DIM))
 	}
 	// error line
 	fmt.Printf("%d ", line+1)
-	fmt.Printf(style("|", DIM))
+	fmt.Print(style("|", DIM))
 	for i, char := range strings.Split(lines[line], "") {
 		if i == col {
 			fmt.Printf("%s", style(char, RED, BOLD, UNDERLINE))
 		} else {
-			fmt.Printf(char)
+			fmt.Print(char)
 		}
 	}
-	fmt.Printf("\n")
+	fmt.Print("\n")
 	// highlight error
-	fmt.Printf("  ")
+	fmt.Print("  ")
 	for i := 0; i <= col; i++ {
-		fmt.Printf(" ")
+		fmt.Print(" ")
 	}
 	fmt.Println(style("^", RED, BOLD))
 	// line after
 	if len(lines) > (line + 1) {
-		fmt.Printf(style(fmt.Sprintf("%d |%s\n", line+2, lines[line+1]), DIM))
+		fmt.Print(style(fmt.Sprintf("%d |%s\n", line+2, lines[line+1]), DIM))
 	}
 	fmt.Println(style(dashes, DIM))
 	os.Exit(1)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Brandon Jordan
+ * Copyright (c) 2023 Brandon Jordan
  */
 
 package main
@@ -114,7 +114,7 @@ func doOperation(operation tokenType, value float64) {
 		result *= value
 	case DIVIDE:
 		if result == 0 && value == 0 {
-			interpreterError("Divide by zero error", currentSet.line, currentToken.col)
+			parsingError("Divide by zero error", currentSet.line, currentToken.col)
 		}
 		result /= value
 	case MODULUS:
