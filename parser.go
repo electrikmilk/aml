@@ -36,7 +36,7 @@ func parse() {
 				} else if isToken(MINUS) && next(1) == ' ' {
 					lineTokens = append(lineTokens, token{typeof: MINUS, col: c})
 					advance()
-				} else if strings.ContainsAny(string(currentChar), MULTIPLY) {
+				} else if strings.ContainsAny(string(currentChar), string(MULTIPLY)) {
 					lineTokens = append(lineTokens, token{typeof: MULTIPLY, col: c})
 					advance()
 				} else if isToken(DIVIDE) {

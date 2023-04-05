@@ -8,13 +8,13 @@ type tokenType string
 
 const (
 	INTEGER      tokenType = "0123456789.-^"
-	PLUS                   = "+"
-	MINUS                  = "-"
-	MULTIPLY               = "*×"
-	DIVIDE                 = "/"
-	MODULUS                = "%"
-	STARTCLOSURE           = "("
-	ENDCLOSURE             = ")"
+	PLUS         tokenType = "+"
+	MINUS        tokenType = "-"
+	MULTIPLY     tokenType = "*×"
+	DIVIDE       tokenType = "/"
+	MODULUS      tokenType = "%"
+	STARTCLOSURE tokenType = "("
+	ENDCLOSURE   tokenType = ")"
 )
 
 type token struct {
