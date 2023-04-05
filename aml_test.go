@@ -23,8 +23,8 @@ func TestAML(t *testing.T) {
 			currentTest = "examples/" + file.Name()
 			fmt.Printf("Testing %s...\n", currentTest)
 			os.Args[1] = currentTest
-			reset()
 			main()
+			reset()
 			fmt.Print("\033[32mPASSED\033[0m\n\n")
 		}
 	}
