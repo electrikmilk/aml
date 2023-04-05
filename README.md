@@ -9,7 +9,13 @@
 AML (Arith-Metic Language) is an interpreted math equation language. You can either use the interactive shell by running
 the interpreter with no arguments, or with a file ending in .aml by passing the name of the file as an argument.
 
-Build:
+Build latest release:
+
+```console
+go install github.com/electrikmilk/aml@latest
+```
+
+Build from source:
 
 ```console
 cd src
