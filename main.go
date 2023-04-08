@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/electrikmilk/ttuy"
 )
 
 var variables map[string]token
@@ -33,10 +35,10 @@ func main() {
 		interpret()
 	} else {
 		// interactive shell
-		fmt.Println(style("Enter \"q\" to quit.", CYAN) + "\n")
+		fmt.Println(ttuy.Style("Enter \"q\" to quit.", ttuy.CyanText) + "\n")
 		for {
 			tokenSets = []tokenSet{}
-			fmt.Printf(style("> ", GREEN))
+			fmt.Print(ttuy.Style("> ", ttuy.GreenText))
 			var reader = bufio.NewReader(os.Stdin)
 			var input, _, err = reader.ReadLine()
 			handle(err)
@@ -52,28 +54,28 @@ func main() {
 }
 
 func errorMsg(message string) {
-	fmt.Println(style("Error: "+message, RED))
+	fmt.Println(ttuy.Style("Error: "+message, ttuy.RedText))
 	os.Exit(1)
 }
 
 func parsingError(message string, line int, col int) {
 	var dashes = "-------"
-	fmt.Println("\n" + style("Error: "+message, RED) + "\n")
+	fmt.Println("\n" + ttuy.Style("Error: "+message, ttuy.RedText) + "\n")
 	if len(os.Args) > 1 {
-		fmt.Printf(style(dashes, DIM)+" %s:%d:%d\n", os.Args[1], line+1, col+1)
+		fmt.Printf(ttuy.Style(dashes, ttuy.Dim)+" %s:%d:%d\n", os.Args[1], line+1, col+1)
 	} else {
-		fmt.Println(style(dashes, DIM))
+		fmt.Println(ttuy.Style(dashes, ttuy.Dim))
 	}
 	// line before
 	if line-1 > 0 {
-		fmt.Print(style(fmt.Sprintf("%d |%s\n", line, lines[line-1]), DIM))
+		fmt.Print(ttuy.Style(fmt.Sprintf("%d |%s\n", line, lines[line-1]), ttuy.Dim))
 	}
 	// error line
 	fmt.Printf("%d ", line+1)
-	fmt.Print(style("|", DIM))
+	fmt.Print(ttuy.Style("|", ttuy.Dim))
 	for i, char := range strings.Split(lines[line], "") {
 		if i == col {
-			fmt.Printf("%s", style(char, RED, BOLD, UNDERLINE))
+			fmt.Printf("%s", ttuy.Style(char, ttuy.RedText, ttuy.Bold, ttuy.Underlined))
 		} else {
 			fmt.Print(char)
 		}
@@ -84,12 +86,12 @@ func parsingError(message string, line int, col int) {
 	for i := 0; i <= col; i++ {
 		fmt.Print(" ")
 	}
-	fmt.Println(style("^", RED, BOLD))
+	fmt.Println(ttuy.Style("^", ttuy.RedText, ttuy.Bold))
 	// line after
 	if len(lines) > (line + 1) {
-		fmt.Print(style(fmt.Sprintf("%d |%s\n", line+2, lines[line+1]), DIM))
+		fmt.Print(ttuy.Style(fmt.Sprintf("%d |%s\n", line+2, lines[line+1]), ttuy.Dim))
 	}
-	fmt.Println(style(dashes, DIM))
+	fmt.Println(ttuy.Style(dashes, ttuy.Dim))
 	os.Exit(1)
 }
 

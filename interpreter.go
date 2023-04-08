@@ -10,6 +10,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/electrikmilk/ttuy"
 )
 
 var result float64
@@ -62,13 +64,13 @@ func interpret() {
 		}
 		stripComments()
 		replaceVariables()
-		var equals string = style("= ", DIM)
+		var equals string = ttuy.Style("= ", ttuy.Dim)
 		if len(os.Args) > 1 {
-			fmt.Printf(style(printModulus(lines[set.line]), YELLOW) + " ")
+			fmt.Printf(ttuy.Style(printModulus(lines[set.line]), ttuy.YellowText) + " ")
 		}
-		fmt.Printf(equals)
+		fmt.Print(equals)
 		var answer string = strconv.FormatFloat(result, 'f', -1, 64)
-		fmt.Printf(style(answer, GREEN) + "\n")
+		fmt.Print(ttuy.Style(answer, ttuy.GreenText) + "\n")
 	}
 }
 
