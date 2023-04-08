@@ -93,7 +93,6 @@ func waitForComment() {
 		comment += string(currentChar)
 		advance()
 	}
-	return
 }
 
 func collectVariable(kind string, line int, col int) {
@@ -192,7 +191,7 @@ func seek(mov *int, reverse bool) (seekedChar rune) {
 	var charPos int
 	seekedChar = ' '
 	for seekedChar != ' ' {
-		if reverse == true {
+		if reverse {
 			charPos = c - *mov
 		} else {
 			charPos = c + *mov
@@ -207,13 +206,10 @@ func printCurrentChar() {
 	switch currentChar {
 	case '\t':
 		char = "TAB"
-		break
 	case ' ':
 		char = "SPACE"
-		break
 	case eolRune:
 		char = "eol"
-		break
 	default:
 		char = string(currentChar)
 	}

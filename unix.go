@@ -6,5 +6,5 @@
 
 package main
 
-var eol = "\n"
-var eolRune = '\n'
+const eol = "\n"
+const eolRune = '\n'
